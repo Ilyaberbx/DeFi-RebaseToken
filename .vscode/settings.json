@@ -1,4 +1,4 @@
 {
-    "solidity.formatter": "forge",
+    "solidity.formatter": "prettier",
     "editor.formatOnSave": true
 }
