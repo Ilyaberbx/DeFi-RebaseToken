@@ -1,4 +1,6 @@
 {
-    "solidity.formatter": "prettier",
-    "editor.formatOnSave": true
+  "solidity.formatter": "prettier",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "notebook.defaultFormatter": "esbenp.prettier-vscode"
 }

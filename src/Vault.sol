@@ -28,7 +28,7 @@ contract Vault {
      * @notice Deposits ETH into the vault and mints RBT tokens to the sender.
      */
     function deposit() external payable {
-        i_rebaseToken.mint(msg.sender, msg.value);
+        i_rebaseToken.mint(msg.sender, msg.value, i_rebaseToken.getInterestRate());
         emit Deposit(msg.sender, msg.value);
     }
 
