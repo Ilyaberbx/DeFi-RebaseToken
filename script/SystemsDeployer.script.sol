@@ -8,7 +8,9 @@ import {IRebaseToken} from "../src/interfaces/IRebaseToken.sol";
 import {RebaseTokenPool} from "../src/RebaseTokenPool.sol";
 import {Vault} from "../src/Vault.sol";
 import {CCIPLocalSimulatorFork, Register} from "@chainlink-local/src/ccip/CCIPLocalSimulatorFork.sol";
-import {RegistryModuleOwnerCustom} from "@ccip/contracts/src/v0.8/ccip/tokenAdminRegistry/RegistryModuleOwnerCustom.sol";
+import {
+    RegistryModuleOwnerCustom
+} from "@ccip/contracts/src/v0.8/ccip/tokenAdminRegistry/RegistryModuleOwnerCustom.sol";
 import {TokenAdminRegistry} from "@ccip/contracts/src/v0.8/ccip/tokenAdminRegistry/TokenAdminRegistry.sol";
 import {IERC20} from "@ccip/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol";
 
@@ -20,7 +22,9 @@ contract TokenAndPoolDeployer is Script {
 
         vm.startBroadcast();
         token = new RebaseToken(msg.sender);
-        pool = new RebaseTokenPool(IERC20(address(token)), new address[](0), networkDetails.rmnProxyAddress, networkDetails.routerAddress);
+        pool = new RebaseTokenPool(
+            IERC20(address(token)), new address[](0), networkDetails.rmnProxyAddress, networkDetails.routerAddress
+        );
         token.grantMintAndBurnRole(address(pool));
         RegistryModuleOwnerCustom(networkDetails.tokenAdminRegistryAddress).registerAdminViaOwner(address(token));
         TokenAdminRegistry(networkDetails.tokenAdminRegistryAddress).acceptAdminRole(address(token));

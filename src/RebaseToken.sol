@@ -5,6 +5,7 @@ pragma solidity ^0.8.20;
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+
 /**
  * @title RebaseToken
  * @author Illia Verbanov
@@ -155,6 +156,7 @@ contract RebaseToken is ERC20, Ownable, AccessControl {
     function getPrecisionFactor() external pure returns (uint256) {
         return PRECISION_FACTOR;
     }
+
     /**
      * @notice Overrides the balanceOf function to return the balance of the specified user with the accrued interest.
      * @param user The address to get the balance for.

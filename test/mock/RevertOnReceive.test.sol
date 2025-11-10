@@ -8,6 +8,7 @@ contract RevertOnReceive {
     constructor(uint8 recieveTimesBeforeRevert) {
         s_recieveTimesBeforeRevert = recieveTimesBeforeRevert;
     }
+
     receive() external payable {
         if (s_recieveTimesBeforeRevert == 0) {
             revert("Revert for test purposes");

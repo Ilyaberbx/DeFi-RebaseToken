@@ -28,9 +28,10 @@ contract RebaseTokenTest is Test {
     function addRewardsToVault(uint256 amount) public {
         vm.startPrank(owner);
         vm.deal(owner, amount);
-        (bool success, ) = payable(address(vault)).call{value: amount}("");
+        (bool success,) = payable(address(vault)).call{value: amount}("");
         vm.stopPrank();
     }
+
     function testLinearRebaseOnceDeposited(uint256 amount) public {
         amount = bound(amount, 1e5, type(uint96).max);
         vm.deal(user, amount);
@@ -47,11 +48,7 @@ contract RebaseTokenTest is Test {
         uint256 finalBalance = rebaseToken.balanceOf(user);
         console.log("finalBalance", finalBalance);
         assertGt(finalBalance, middleBalance);
-        assertApproxEqAbs(
-            finalBalance - middleBalance,
-            middleBalance - initialBalance,
-            1
-        );
+        assertApproxEqAbs(finalBalance - middleBalance, middleBalance - initialBalance, 1);
         vm.stopPrank();
     }
 
@@ -118,9 +115,7 @@ contract RebaseTokenTest is Test {
         assertEq(rebaseToken.getUserInterestRate(user2), 5e10);
     }
 
-    function testCannotSetInterestRateIfNotOwner(
-        uint256 newInterestRate
-    ) public {
+    function testCannotSetInterestRateIfNotOwner(uint256 newInterestRate) public {
         vm.prank(user);
         vm.expectRevert();
         rebaseToken.setInterestRate(newInterestRate);
@@ -145,15 +140,9 @@ contract RebaseTokenTest is Test {
 
     function testInterestRateCanOnlyDecrease(uint256 newInterestRate) public {
         uint256 initialInterestRate = rebaseToken.getInterestRate();
-        newInterestRate = bound(
-            newInterestRate,
-            initialInterestRate,
-            type(uint96).max
-        );
+        newInterestRate = bound(newInterestRate, initialInterestRate, type(uint96).max);
         vm.prank(owner);
-        vm.expectPartialRevert(
-            RebaseToken.RebaseToken__InterestRateCanOnlyDecrease.selector
-        );
+        vm.expectPartialRevert(RebaseToken.RebaseToken__InterestRateCanOnlyDecrease.selector);
         rebaseToken.setInterestRate(newInterestRate);
         assertEq(rebaseToken.getInterestRate(), initialInterestRate);
     }

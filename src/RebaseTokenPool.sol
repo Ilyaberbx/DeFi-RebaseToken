@@ -15,14 +15,19 @@ import {IERC20} from "@ccip/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8
  * @notice The pool is used to redeem the tokens for the users.
  */
 contract RebaseTokenPool is TokenPool {
-    constructor(IERC20 token, address[] memory allowlist, address rmnProxy, address router) TokenPool(token, allowlist, rmnProxy, router) {}
+    constructor(IERC20 token, address[] memory allowlist, address rmnProxy, address router)
+        TokenPool(token, allowlist, rmnProxy, router)
+    {}
 
     /**
      * @notice Burns the tokens from the sender (called by CCIP).
      * @param lockOrBurnIn The input data for the lock or burn operation.
      * @return lockOrBurnOut The output data for the lock or burn operation.
      */
-    function lockOrBurn(Pool.LockOrBurnInV1 calldata lockOrBurnIn) external returns (Pool.LockOrBurnOutV1 memory lockOrBurnOut) {
+    function lockOrBurn(Pool.LockOrBurnInV1 calldata lockOrBurnIn)
+        external
+        returns (Pool.LockOrBurnOutV1 memory lockOrBurnOut)
+    {
         _validateLockOrBurn(lockOrBurnIn);
         uint256 userInterestRate = _getUserInterestRate(lockOrBurnIn.originalSender);
         _burn(address(this), lockOrBurnIn.amount);
@@ -38,7 +43,10 @@ contract RebaseTokenPool is TokenPool {
      * @param releaseOrMintIn The input data for the release or mint operation.
      * @return releaseOrMintOut The output data for the release or mint operation.
      */
-    function releaseOrMint(Pool.ReleaseOrMintInV1 calldata releaseOrMintIn) external returns (Pool.ReleaseOrMintOutV1 memory) {
+    function releaseOrMint(Pool.ReleaseOrMintInV1 calldata releaseOrMintIn)
+        external
+        returns (Pool.ReleaseOrMintOutV1 memory)
+    {
         _validateReleaseOrMint(releaseOrMintIn);
         uint256 userInterestRate = abi.decode(releaseOrMintIn.sourcePoolData, (uint256));
         _mint(releaseOrMintIn.receiver, releaseOrMintIn.amount, userInterestRate);
